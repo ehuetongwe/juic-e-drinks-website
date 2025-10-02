@@ -207,6 +207,10 @@ function haversineMiles(a, b) {
 
 // ================= UI Updates =================
 
+function showNotification(msg, type) {
+    alert(`${type.toUpperCase()}: ${msg}`);
+}
+
 function updateDeliveryResults(distance, fee) {
     const distanceEl = document.getElementById('distance-result');
     const feeEl = document.getElementById('fee-result');
@@ -277,6 +281,10 @@ function getDeliveryFee() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initDeliveryAutoValidation();
+    const btn = document.getElementById("validate-delivery-btn");
+    if (btn) {
+        btn.addEventListener("click", checkDeliveryAvailability);
+    }
 });
 
 // ================= Global Exports =================
@@ -290,3 +298,11 @@ window.getDeliveryFee = getDeliveryFee;
 // Legacy compatibility
 window.deliveryValidated = false;
 window.deliveryFee = 0;
+
+window.ensureDeliveryValidated = function() {
+    if (!window.deliveryValidated) {
+        alert("Please validate your delivery address first.");
+        return false;
+    }
+    return true;
+}
