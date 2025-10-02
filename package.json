@@ -1,0 +1,36 @@
+{
+  "name": "juice-e-commerce",
+  "version": "1.0.0",
+  "description": "Juic'E Drinks E-commerce Website with Stripe Integration",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "dev:stripe": "stripe listen --forward-to localhost:8888/.netlify/functions/webhook",
+    "build": "netlify build",
+    "start": "netlify dev",
+    "deploy": "netlify deploy --prod",
+    "functions:list": "netlify functions:list",
+    "functions:serve": "netlify functions:serve",
+    "functions:invoke:checkout": "netlify functions:invoke checkout --port 8888 --json --payload '{\"items\":[{\"name\":\"Test Juice\",\"description\":\"A delicious test juice\",\"price\":9.99,\"quantity\":1,\"images\":[\"https://example.com/juice.png\"]}]}'",
+    "test:webhook": "node test-webhook.js",
+    "test:checkout": "netlify functions:invoke checkout --port 8888 --json --payload '{\"lineItems\":[{\"price_data\":{\"currency\":\"usd\",\"product_data\":{\"name\":\"Test Juice\",\"description\":\"A delicious test juice\"},\"unit_amount\":999},\"quantity\":1}]}'"
+  },
+  "keywords": [
+    "e-commerce",
+    "juice",
+    "stripe",
+    "netlify",
+    "vanilla-js"
+  ],
+  "author": "Juic'E Drinks",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^14.12.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

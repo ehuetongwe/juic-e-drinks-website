@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juic'E Drinks - Natural Cold-Pressed Juices for Your Wellness Journey</title>
+    <meta name="description" content="Discover the most refreshing cold-pressed juices. Start your health and wellness journey with Juic'E Drinks - natural, delicious, and delivered to your door.">
+    <meta name="stripe-publishable-key" content="${STRIPE_PUBLISHABLE_KEY}">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Places API for Address Autocomplete -->
+    <script 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz4WzlR3pE167TXQIDte3E44cVhFe6zqc&libraries=places" 
+        async 
+        defer>
+    </script>
+    <!-- Stripe.js CDN -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/logo.jpg" alt="Juic'E Drinks Logo" class="logo-img">
+                <h2>Juic'E Drinks</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#juices" class="nav-link">Juices</a>
+                <a href="#cleanses" class="nav-link">Cleanses</a>
+                <a href="#delivery" class="nav-link">Delivery</a>
+                <a href="#checkout" class="nav-link">Checkout</a>
+                <a href="#testimonials" class="nav-link">Reviews</a>
+            </div>
+            <div class="cart-icon" id="cart-icon">
+                <span class="cart-count" id="cart-count">0</span>
+                🛒
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Your Cart</h3>
+                <button class="close-cart" id="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-summary">
+                <div class="cart-subtotal">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="delivery-fee" id="delivery-fee-container" style="display: none;">
+                    <span>Delivery Fee:</span>
+                    <span id="delivery-fee-amount">$0.00</span>
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <div class="minimum-order-warning" id="minimum-order-warning" style="display: none;">
+                    <p>⚠️ Minimum order of 4 bottles required for delivery</p>
+                </div>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-secondary" id="clear-cart">Clear Cart</button>
+                <button class="btn btn-primary" id="checkout-btn" disabled>Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Fuel Your Wellness Journey Naturally</h1>
+                <p class="hero-subtitle">Clean, fresh, and nutrient-packed juices made to support your health goals.</p>
+                <p class="delivery-note">🚚 Local deliveries every <strong>Wednesday</strong> and <strong>Saturday</strong>. Order by <strong>5 PM the day before</strong> to receive your juice fresh!</p>
+                <div class="hero-buttons">
+                    <a href="#juices" class="btn btn-primary">Shop Juices</a>
+                    <a href="#cleanses" class="btn btn-secondary">Explore Cleanses</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/logo.jpg" alt="Juic'E Drinks Logo" class="hero-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Tiers Section -->
+    <section class="pricing-tiers-section">
+        <div class="container">
+            <div class="pricing-tiers-container">
+                <div class="pricing-tier-card" data-tier="1-5" data-price="7.99">
+                    <div class="tier-label">1-5 bottles</div>
+                    <div class="tier-price">$7.99 each</div>
+                    <div class="tier-savings">Standard pricing</div>
+                </div>
+                <div class="pricing-tier-card" data-tier="6-11" data-price="7.75">
+                    <div class="tier-label">6-11 bottles</div>
+                    <div class="tier-price">$7.75 each</div>
+                    <div class="tier-savings">Save $0.24 per bottle</div>
+                </div>
+                <div class="pricing-tier-card" data-tier="12+" data-price="7.50">
+                    <div class="tier-label">12+ bottles</div>
+                    <div class="tier-price">$7.50 each</div>
+                    <div class="tier-savings">Save $0.49 per bottle</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Juices Section -->
+    <section id="juices" class="juices">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Signature Juices</h2>
+                <p>Each blend is carefully crafted to deliver maximum nutrition and flavor</p>
+            </div>
+            
+            <div class="juices-grid">
+                <!-- The Refresher -->
+                <div class="juice-card">
+                    <div class="juice-image">
+                        <img src="assets/images/refresher.jpg" alt="The Refresher Juice" class="juice-photo">
+                    </div>
+                    <div class="juice-content">
+                        <h3>The Refresher</h3>
+                        <p class="juice-description">A vibrant green blend that energizes and detoxifies. Perfect for starting your day with a burst of natural vitality.</p>
+                        <div class="ingredients">
+                            <h4>Ingredients:</h4>
+                            <div class="ingredient-tags">
+                                <span class="ingredient">Granny Smith Apples</span>
+                                <span class="ingredient">Key Lime</span>
+                                <span class="ingredient">Cucumber</span>
+                                <span class="ingredient">Ginger</span>
+                                <span class="ingredient">Lemon</span>
+                            </div>
+                        </div>
+                        <div class="juice-benefits">
+                            <span class="benefit">✓ Energy Boost</span>
+                            <span class="benefit">✓ Natural Detox</span>
+                            <span class="benefit">✓ Immune Support</span>
+                        </div>
+                        <div class="juice-actions">
+                            <div class="quantity-selector">
+                                <button class="qty-btn" onclick="updateQuantity('refresher', -1)" 
+                                        aria-label="Decrease quantity of The Refresher"
+                                        title="Decrease quantity">-</button>
+                                <span class="qty-display" id="refresher-qty" aria-live="polite">0</span>
+                                <button class="qty-btn" onclick="updateQuantity('refresher', 1)"
+                                        aria-label="Increase quantity of The Refresher"
+                                        title="Increase quantity">+</button>
+                            </div>
+                            <button class="btn btn-primary add-to-cart" onclick="addToCart('refresher', 'The Refresher', getDynamicPrice('refresher'))">
+                                <span class="btn-text">Add to Cart</span>
+                                <span class="btn-bundle-text" style="display: none;">Add to Bundle</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Reboot -->
+                <div class="juice-card">
+                    <div class="juice-image">
+                        <img src="assets/images/reboot.jpg" alt="The Reboot Juice" class="juice-photo">
+                    </div>
+                    <div class="juice-content">
+                        <h3>The Reboot</h3>
+                        <p class="juice-description">A deep cleansing blend that resets your body and renews your energy. Ideal for detox and recovery.</p>
+                        <div class="ingredients">
+                            <h4>Ingredients:</h4>
+                            <div class="ingredient-tags">
+                                <span class="ingredient">Beets</span>
+                                <span class="ingredient">Granny Smith Apples</span>
+                                <span class="ingredient">Lemon</span>
+                                <span class="ingredient">Ginger</span>
+                            </div>
+                        </div>
+                        <div class="juice-benefits">
+                            <span class="benefit">✓ Deep Cleansing</span>
+                            <span class="benefit">✓ Circulation Boost</span>
+                            <span class="benefit">✓ Liver Support</span>
+                        </div>
+                        <div class="juice-actions">
+                            <div class="quantity-selector">
+                                <button class="qty-btn" onclick="updateQuantity('reboot', -1)"
+                                        aria-label="Decrease quantity of The Reboot"
+                                        title="Decrease quantity">-</button>
+                                <span class="qty-display" id="reboot-qty" aria-live="polite">0</span>
+                                <button class="qty-btn" onclick="updateQuantity('reboot', 1)"
+                                        aria-label="Increase quantity of The Reboot"
+                                        title="Increase quantity">+</button>
+                            </div>
+                            <button class="btn btn-primary add-to-cart" onclick="addToCart('reboot', 'The Reboot', getDynamicPrice('reboot'))">
+                                <span class="btn-text">Add to Cart</span>
+                                <span class="btn-bundle-text" style="display: none;">Add to Bundle</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal Flavor -->
+                <div class="juice-card seasonal">
+                    <div class="juice-image">
+                        <img src="assets/images/seasonal.jpg" alt="Seasonal Juice Flavor" class="juice-photo">
+                        <div class="seasonal-badge">Seasonal</div>
+                    </div>
+                    <div class="juice-content">
+                        <h3>The Island Zing</h3>
+                        <p class="juice-description">A refreshing summer blend that hydrates and cools. Limited time availability during peak season.</p>
+                        <div class="ingredients">
+                            <h4>Ingredients:</h4>
+                            <div class="ingredient-tags">
+                                <span class="ingredient">Watermelon</span>
+                                <span class="ingredient">Pineapple</span>
+                                <span class="ingredient">Ginger</span>
+                                <span class="ingredient">Lime</span>
+                            </div>
+                        </div>
+                        <div class="juice-benefits">
+                            <span class="benefit">✓ Hydration</span>
+                            <span class="benefit">✓ Cooling Effect</span>
+                            <span class="benefit">✓ Digestive Aid</span>
+                        </div>
+                        <div class="juice-actions">
+                            <div class="quantity-selector">
+                                <button class="qty-btn" onclick="updateQuantity('Island Zing', -1)"
+                                        aria-label="Decrease quantity of The Island Zing"
+                                        title="Decrease quantity">-</button>
+                                <span class="qty-display" id="island-zing-qty" aria-live="polite">0</span>
+                                <button class="qty-btn" onclick="updateQuantity('Island Zing', 1)"
+                                        aria-label="Increase quantity of The Island Zing"
+                                        title="Increase quantity">+</button>
+                            </div>
+                            <button class="btn btn-primary add-to-cart" onclick="addToCart('Island Zing', 'The Island Zing', getDynamicPrice('Island Zing'))">
+                                <span class="btn-text">Add to Cart</span>
+                                <span class="btn-bundle-text" style="display: none;">Add to Bundle</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown">
+        <div class="container">
+            <h2>Next Juice Fast Starts In:</h2>
+            <div id="countdown-timer" class="countdown-timer">Loading...</div>
+        </div>
+    </section>
+
+    <!-- Flavor Profiles Section -->
+    <section id="flavor-section" class="flavor-profiles">
+        <div class="container">
+            <div class="section-header">
+                <h2>Flavor Profiles</h2>
+                <p>Discover the unique benefits and characteristics of each signature blend</p>
+            </div>
+            
+            <div class="flavor-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="refresher">
+                        <span class="tab-text">The Refresher</span>
+                    </button>
+                    <button class="tab-btn" data-tab="reboot">
+                        <span class="tab-text">The Reboot</span>
+                    </button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-panel active" id="refresher-panel">
+                        <div class="flavor-header">
+                            <h3>The Refresher</h3>
+                            <div class="flavor-ingredients-brief">
+                                Green Apple · Cucumber · Lemon · Ginger · Key Lime
+                            </div>
+                        </div>
+                        
+                        <div class="flavor-description">
+                            <h4>A Light, Hydrating Reset</h4>
+                            <p>A crisp, refreshing blend made to gently cleanse and rehydrate your body — ideal for first-time cleansers or anyone needing a light reset.</p>
+                        </div>
+                        
+                        <div class="flavor-details">
+                            <h4>What's Inside & Why It Works:</h4>
+                            <div class="ingredient-benefits">
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Green Apple</span>
+                                    <span class="benefit-description">– Naturally sweet and full of fiber, green apples help your digestion, keep your blood sugar steady, and support a healthy gut.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Cucumber</span>
+                                    <span class="benefit-description">– Made mostly of water, cucumbers deeply hydrate your body and give your skin a healthy glow thanks to minerals like potassium.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Lemon & Key Lime</span>
+                                    <span class="benefit-description">– These citrus fruits help your body flush out toxins, support digestion, and bring balance to your system by reducing acidity.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Ginger</span>
+                                    <span class="benefit-description">– A warming root that's known for calming the stomach, boosting immunity, and reducing inflammation. It keeps your digestion moving and your body protected.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="reboot-panel">
+                        <div class="flavor-header">
+                            <h3>The Reboot</h3>
+                            <div class="flavor-ingredients-brief">
+                                Green Apple · Beets · Lemon · Ginger
+                            </div>
+                        </div>
+                        
+                        <div class="flavor-description">
+                            <h4>A Bold Cleanse for Deeper Renewal</h4>
+                            <p>This earthy, energizing blend supports deeper detox — perfect for more experienced cleansers or after high-stress periods.</p>
+                        </div>
+                        
+                        <div class="flavor-details">
+                            <h4>What's Inside & Why It Works:</h4>
+                            <div class="ingredient-benefits">
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Beets</span>
+                                    <span class="benefit-description">– Beets are a natural detox hero. They help clean your liver, improve blood flow, and give your body a boost of lasting energy.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Green Apple</span>
+                                    <span class="benefit-description">– Adds a naturally sweet flavor while helping with digestion and supporting a healthy gut thanks to its fiber and antioxidants.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Lemon</span>
+                                    <span class="benefit-description">– Helps your body flush out waste and supports your liver. It also brings a fresh, clean taste that helps your system feel balanced.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Ginger</span>
+                                    <span class="benefit-description">– A powerful root that fights inflammation, supports digestion, and helps your body stay strong against sickness.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Juice Cleanse Packages Section -->
+    <section id="cleanses" class="cleanses">
+        <div class="container">
+            <div class="section-header">
+                <h2>Juice Cleanse Packages</h2>
+                <p>Choose the perfect cleanse duration for your wellness goals</p>
+            </div>
+            
+            <div class="cleanses-grid">
+                <div class="cleanse-card">
+                    <div class="cleanse-header">
+                        <h3>1-Day Cleanse</h3>
+                        <div class="bottle-count">8 Bottles</div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">$60</div>
+                    </div>
+
+                    <div class="cleanse-note">
+                        <p>Note: Seasonal flavors like The Island Zing are not included in cleanse bundles and are only available for individual purchase.</p>
+                    </div>
+                    <div class="cleanse-description">
+                        <h4>🍃 A Gentle Jumpstart</h4>
+                        <p>Ease into wellness with a one-day reset that hydrates, refreshes, and gives your body a moment to recalibrate. Perfect for beginners or those needing a mindful reset between busy days.</p>
+                        <p class="cleanse-tagline">Think of it as a spa day—for your insides.</p>
+                    </div>
+                    <div class="flavor-selection">
+                        <h4>Choose Your Flavor:</h4>
+                        <div class="flavor-options">
+                            <div class="flavor-option active" data-flavor="refresher" data-cleanse="1-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Refresher</div>
+                                    <div class="flavor-ingredients">Green apple, cucumber, lemon, ginger, key lime</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                            <div class="flavor-option" data-flavor="reboot" data-cleanse="1-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Reboot</div>
+                                    <div class="flavor-ingredients">Green apple, beets, lemon, ginger</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New dropdown flavor selector -->
+                    <label for="1-day-flavor-select" class="flavor-label">Choose your flavor (dropdown):</label>
+                    <select id="1-day-flavor-select" class="flavor-select" data-cleanse="1-day">
+                        <option value="refresher">The Refresher</option>
+                        <option value="reboot">The Reboot</option>
+                    </select>
+                    <div class="cleanse-actions">
+                        <button class="btn btn-primary add-cleanse-to-cart" onclick="addSelectedCleanseToCart('1-day', '1-Day Cleanse', 8, 60)">
+                            <span class="btn-text">Add 1-Day Cleanse to Cart</span>
+                            <span class="btn-loading" style="display: none;">Adding...</span>
+                        </button>
+                        <a href="#learn-1day" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="cleanse-card">
+                    <div class="cleanse-header">
+                        <h3>2-Day Cleanse</h3>
+                        <div class="bottle-count">16 Bottles</div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">$120</div>
+                    </div>
+
+                    <div class="cleanse-note">
+                        <p>Note: Seasonal flavors like The Island Zing are not included in cleanse bundles and are only available for individual purchase.</p>
+                    </div>
+                    <div class="cleanse-description">
+                        <h4>🌿 Balanced. Intentional. Effective.</h4>
+                        <p>Our most-loved cleanse strikes the perfect harmony between commitment and convenience. Two days of nourishing blends help reawaken your system and energize your body—without disrupting your rhythm.</p>
+                        <p class="cleanse-tagline">Ideal for a weekend detox or midweek realignment.</p>
+                    </div>
+                    <div class="flavor-selection">
+                        <h4>Choose Your Flavor:</h4>
+                        <div class="flavor-options">
+                            <div class="flavor-option active" data-flavor="refresher" data-cleanse="2-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Refresher</div>
+                                    <div class="flavor-ingredients">Green apple, cucumber, lemon, ginger, key lime</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                            <div class="flavor-option" data-flavor="reboot" data-cleanse="2-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Reboot</div>
+                                    <div class="flavor-ingredients">Green apple, beets, lemon, ginger</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New dropdown flavor selector -->
+                    <label for="2-day-flavor-select" class="flavor-label">Choose your flavor (dropdown):</label>
+                    <select id="2-day-flavor-select" class="flavor-select" data-cleanse="2-day">
+                        <option value="refresher">The Refresher</option>
+                        <option value="reboot">The Reboot</option>
+                    </select>
+                    <div class="cleanse-actions">
+                        <button class="btn btn-primary add-cleanse-to-cart" onclick="addSelectedCleanseToCart('2-day', '2-Day Cleanse', 16, 120)">
+                            <span class="btn-text">Add 2-Day Cleanse to Cart</span>
+                            <span class="btn-loading" style="display: none;">Adding...</span>
+                        </button>
+                        <a href="#learn-2day" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="cleanse-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="cleanse-header">
+                        <h3>3-Day Cleanse</h3>
+                        <div class="bottle-count">24 Bottles</div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">$175</div>
+                    </div>
+
+                    <div class="cleanse-note">
+                        <p>Note: Seasonal flavors like The Island Zing are not included in cleanse bundles and are only available for individual purchase.</p>
+                    </div>
+                    <div class="cleanse-description">
+                        <h4>🌴 Your Full-Body Refresh</h4>
+                        <p>This three-day journey invites you to unplug, unwind, and realign from the inside out. Each bottle supports detox, hydration, and renewal—so you finish feeling lighter, brighter, and fully recharged.</p>
+                        <p class="cleanse-tagline">Wellness that flows with you—mind, body, and spirit.</p>
+                    </div>
+                    <div class="flavor-selection">
+                        <h4>Choose Your Flavor:</h4>
+                        <div class="flavor-options">
+                            <div class="flavor-option active" data-flavor="refresher" data-cleanse="3-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Refresher</div>
+                                    <div class="flavor-ingredients">Green apple, cucumber, lemon, ginger, key lime</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                            <div class="flavor-option" data-flavor="reboot" data-cleanse="3-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Reboot</div>
+                                    <div class="flavor-ingredients">Green apple, beets, lemon, ginger</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New dropdown flavor selector -->
+                    <label for="3-day-flavor-select" class="flavor-label">Choose your flavor (dropdown):</label>
+                    <select id="3-day-flavor-select" class="flavor-select" data-cleanse="3-day">
+                        <option value="refresher">The Refresher</option>
+                        <option value="reboot">The Reboot</option>
+                    </select>
+                    <div class="cleanse-actions">
+                        <button class="btn btn-primary add-cleanse-to-cart" onclick="addSelectedCleanseToCart('3-day', '3-Day Cleanse', 24, 175)">
+                            <span class="btn-text">Add 3-Day Cleanse to Cart</span>
+                            <span class="btn-loading" style="display: none;">Adding...</span>
+                        </button>
+                        <a href="#learn-3day" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="cleanse-card">
+                    <div class="cleanse-header">
+                        <h3>5-Day Cleanse</h3>
+                        <div class="bottle-count">40 Bottles</div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">$290</div>
+                    </div>
+
+                    <div class="cleanse-note">
+                        <p>Note: Seasonal flavors like The Island Zing are not included in cleanse bundles and are only available for individual purchase.</p>
+                    </div>
+                    <div class="cleanse-description">
+                        <h4>🌸 Elevated Restoration</h4>
+                        <p>Designed for those ready to go deeper, the 5-Day Cleanse supports cellular rejuvenation and sustained energy. Let go of the noise, flood your body with nutrients, and return to your natural flow.</p>
+                        <p class="cleanse-tagline">The perfect companion for a wellness-focused week.</p>
+                    </div>
+                    <div class="flavor-selection">
+                        <h4>Choose Your Flavor:</h4>
+                        <div class="flavor-options">
+                            <div class="flavor-option active" data-flavor="refresher" data-cleanse="5-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Refresher</div>
+                                    <div class="flavor-ingredients">Green apple, cucumber, lemon, ginger, key lime</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                            <div class="flavor-option" data-flavor="reboot" data-cleanse="5-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Reboot</div>
+                                    <div class="flavor-ingredients">Green apple, beets, lemon, ginger</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New dropdown flavor selector -->
+                    <label for="5-day-flavor-select" class="flavor-label">Choose your flavor (dropdown):</label>
+                    <select id="5-day-flavor-select" class="flavor-select" data-cleanse="5-day">
+                        <option value="refresher">The Refresher</option>
+                        <option value="reboot">The Reboot</option>
+                    </select>
+                    <div class="cleanse-actions">
+                        <button class="btn btn-primary add-cleanse-to-cart" onclick="addSelectedCleanseToCart('5-day', '5-Day Cleanse', 40, 290)">
+                            <span class="btn-text">Add 5-Day Cleanse to Cart</span>
+                            <span class="btn-loading" style="display: none;">Adding...</span>
+                        </button>
+                        <a href="#learn-5day" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="cleanse-card">
+                    <div class="cleanse-header">
+                        <h3>7-Day Cleanse</h3>
+                        <div class="bottle-count">56 Bottles</div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">$400</div>
+                    </div>
+
+                    <div class="cleanse-note">
+                        <p>Note: Seasonal flavors like The Island Zing are not included in cleanse bundles and are only available for individual purchase.</p>
+                    </div>
+                    <div class="cleanse-description">
+                        <h4>🌞 Complete Transformation</h4>
+                        <p>A week of vibrant blends crafted for those committed to deep healing and reset. This journey nourishes every cell, sharpens your focus, and cultivates clarity—from your first sip to your last sunrise.</p>
+                        <p class="cleanse-tagline">Not just a cleanse—this is a wellness ritual.</p>
+                    </div>
+                    <div class="flavor-selection">
+                        <h4>Choose Your Flavor:</h4>
+                        <div class="flavor-options">
+                            <div class="flavor-option active" data-flavor="refresher" data-cleanse="7-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Refresher</div>
+                                    <div class="flavor-ingredients">Green apple, cucumber, lemon, ginger, key lime</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                            <div class="flavor-option" data-flavor="reboot" data-cleanse="7-day">
+                                <div class="flavor-info">
+                                    <div class="flavor-name">The Reboot</div>
+                                    <div class="flavor-ingredients">Green apple, beets, lemon, ginger</div>
+                                </div>
+                                <div class="flavor-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New dropdown flavor selector -->
+                    <label for="7-day-flavor-select" class="flavor-label">Choose your flavor (dropdown):</label>
+                    <select id="7-day-flavor-select" class="flavor-select" data-cleanse="7-day">
+                        <option value="refresher">The Refresher</option>
+                        <option value="reboot">The Reboot</option>
+                    </select>
+                    <div class="cleanse-actions">
+                        <button class="btn btn-primary add-cleanse-to-cart" onclick="addSelectedCleanseToCart('7-day', '7-Day Cleanse', 56, 400)">
+                            <span class="btn-text">Add 7-Day Cleanse to Cart</span>
+                            <span class="btn-loading" style="display: none;">Adding...</span>
+                        </button>
+                        <a href="#learn-7day" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seasonal Spotlight Section -->
+    <section class="seasonal-spotlight">
+        <div class="container">
+            <div class="section-header">
+                <h2>🧃 Seasonal Spotlight: Limited-Time Flavor</h2>
+                <p>Experience our exclusive seasonal blend while supplies last</p>
+            </div>
+            
+            <div class="seasonal-product">
+                <div class="seasonal-image">
+                    <img src="assets/images/seasonal.jpg" alt="The Island Zing Seasonal Juice" class="seasonal-photo">
+                    <div class="limited-badge">Limited Availability</div>
+                </div>
+                <div class="seasonal-content">
+                    <h3>The Island Zing</h3>
+                    <p class="seasonal-description">A tropical explosion of flavors that transports you to paradise. This limited-time blend combines the sweetness of watermelon with the tang of pineapple and the warmth of ginger for a truly unique experience.</p>
+                    
+                    <div class="ingredients">
+                        <h4>Ingredients:</h4>
+                        <div class="ingredient-tags">
+                            <span class="ingredient">Watermelon</span>
+                            <span class="ingredient">Pineapple</span>
+                            <span class="ingredient">Ginger</span>
+                            <span class="ingredient">Lime</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flavor-profile">
+                        <h4>Flavor Profile</h4>
+                        <div class="flavor-benefits">
+                            <span class="benefit">✓ Tropical Refreshment</span>
+                            <span class="benefit">✓ Natural Hydration</span>
+                            <span class="benefit">✓ Digestive Support</span>
+                        </div>
+                        
+                        <div class="flavor-details">
+                            <h4>What's Inside & Why It Works:</h4>
+                            <div class="ingredient-benefits">
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Watermelon</span>
+                                    <span class="benefit-description">– Hydrates and refreshes the body with natural electrolytes.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Pineapple</span>
+                                    <span class="benefit-description">– Offers digestive enzymes and a sweet tropical flavor.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Ginger</span>
+                                    <span class="benefit-description">– Supports digestion and adds a warming, soothing note.</span>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-ingredient">Lime</span>
+                                    <span class="benefit-description">– Balances with a bright citrus tang and aids detoxification.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="seasonal-note">
+                        <p>⚠️ <strong>Note:</strong> This seasonal flavor is only available for individual purchase and is not included in cleanse bundles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Information Section -->
+    <section id="delivery" class="delivery">
+        <div class="container">
+            <div class="delivery-content">
+                <div class="delivery-info">
+                    <h2>Local Delivery Service</h2>
+                    <p>We deliver fresh, cold-pressed juices directly to your door on Wednesdays and Saturdays. All orders are prepared fresh and delivered at peak freshness to maintain maximum nutritional benefits.</p>
+                    
+                    <div class="delivery-features">
+                        <div class="delivery-feature">
+                            <div class="feature-icon">📅</div>
+                            <div class="feature-text">
+                                <h4>Wednesday & Saturday Delivery</h4>
+                                <p>Consistent delivery schedule for your convenience</p>
+                            </div>
+                        </div>
+                        <div class="delivery-feature">
+                            <div class="feature-icon">⏰</div>
+                            <div class="feature-text">
+                                <h4>Order by 5 PM Day Before</h4>
+                                <p>Place orders by 5 PM Tuesday for Wednesday delivery</p>
+                            </div>
+                        </div>
+                        <div class="delivery-feature">
+                            <div class="feature-icon">❄️</div>
+                            <div class="feature-text">
+                                <h4>Freshness Guaranteed</h4>
+                                <p>Temperature-controlled delivery for peak freshness</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delivery-policy">
+                        <h4>Delivery Policy</h4>
+                        <div class="policy-details">
+                            <div class="policy-item">
+                                <span class="policy-icon">📦</span>
+                                <div class="policy-text">
+                                    <strong>Minimum Order:</strong> 4 bottles required for delivery
+                                </div>
+                            </div>
+                            <div class="policy-item">
+                                <span class="policy-icon">🚚</span>
+                                <div class="policy-text">
+                                    <strong>Delivery Fees:</strong>
+                                    <ul>
+                                        <li>Flat $7 delivery fee within 35-mile radius</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery form removed as flat-rate fee applies -->
+                    <div class="delivery-result" id="delivery-result" style="display: none;">
+                        <div class="result-item">
+                            <span class="result-label">Distance:</span>
+                            <span class="result-value" id="distance-result">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Delivery Fee:</span>
+                            <span class="result-value" id="fee-result">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Availability:</span>
+                            <span class="result-value" id="availability-result">-</span>
+                        </div>
+                        <div class="result-item" id="delivery-alt-message" style="display:none; color:#c53030; font-weight:600;"></div>
+                    </div>
+                    <p class="delivery-schedule-note">📋 <strong>Delivery Schedule:</strong> Wednesdays & Saturdays • <strong>Order Deadline:</strong> 5 PM the day before delivery</p>
+                </div>
+                <!-- Delivery visual removed as per request -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Section -->
+    <section id="checkout" class="checkout">
+        <div class="container">
+            <div class="section-header">
+                <h2>Checkout</h2>
+                <p>Complete your order with delivery details</p>
+            </div>
+            
+            <div class="checkout-content">
+                <div class="checkout-form">
+                    <h3>Delivery Information</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="checkout-name">Full Name:</label>
+                            <input type="text" id="checkout-name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-phone">Phone Number:</label>
+                            <input type="tel" id="checkout-phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-email">Email:</label>
+                            <input type="email" id="checkout-email" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+                    
+                    <h3>Delivery Address</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="checkout-address">Street Address:</label>
+                            <input type="text" id="checkout-address" placeholder="Enter your street address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-city">City:</label>
+                            <input type="text" id="checkout-city" placeholder="Enter your city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-zip">ZIP Code:</label>
+                            <input type="text" id="checkout-zip" placeholder="Enter your ZIP code" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" onclick="checkDeliveryAvailability()">Validate Delivery Address</button>
+                        </div>
+                    </div>
+                    
+                    <h3>Delivery Preferences</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="delivery-day">Preferred Delivery Day:</label>
+                            <select id="delivery-day" required>
+                                <option value="">Select delivery day</option>
+                                <option value="wednesday">Wednesday</option>
+                                <option value="saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-notes">Delivery Notes (Optional):</label>
+                            <textarea id="delivery-notes" placeholder="Any special instructions for delivery"></textarea>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-items" id="summary-items">
+                        <!-- Order items will be populated here -->
+                    </div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="summary-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row" id="summary-delivery-row" style="display: none;">
+                            <span>Delivery Fee:</span>
+                            <span id="summary-delivery-fee">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="summary-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Form (Square) -->
+                    <!-- Stripe Checkout Button -->
+                    <button class="btn btn-primary btn-large" id="checkout-button" type="button" style="width:100%;margin-top:1rem;">Checkout with Stripe</button>
+                    <div class="minimum-order-alert" id="minimum-order-alert" style="display: none;">                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Customers Say</h2>
+                <p>Join thousands of satisfied customers on their wellness journey</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Refresher completely changed my morning routine. I have so much more energy and feel amazing throughout the day!"</p>
+                    <div class="customer-info">
+                        <span class="customer-name">Sarah M.</span>
+                        <span class="customer-location">Buckhead, Atlanta</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Did the 3-day cleanse and lost 5 pounds while feeling incredible. The delivery was perfect and juices tasted amazing!"</p>
+                    <div class="customer-info">
+                        <span class="customer-name">Mike R.</span>
+                        <span class="customer-location">Sandy Springs, GA</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Reboot helped me reset after a stressful period. I feel lighter, more focused, and my skin is glowing!"</p>
+                    <div class="customer-info">
+                        <span class="customer-name">Lisa T.</span>
+                        <span class="customer-location">Decatur, GA</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Customer service is outstanding and the juices are always fresh. This has become my go-to for healthy living!"</p>
+                    <div class="customer-info">
+                        <span class="customer-name">David K.</span>
+                        <span class="customer-location">Alpharetta, GA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Order Your Juice Today</h2>
+                <p>Start your wellness journey with the most refreshing, nutrient-packed juices you've ever tasted. Join thousands of customers who have transformed their health with Juic'E Drinks.</p>
+                
+                <div class="cta-buttons">
+                    <a href="#juices" class="btn btn-primary btn-large">Shop Juices</a>
+                    <a href="#cleanses" class="btn btn-secondary btn-large">View Cleanses</a>
+                </div>
+
+                <div class="guarantee">
+                    <p>💯 The Most Refreshing Thing You Had All Day • 100% Natural • Cold Pressed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cleanse Details Sections -->
+    <section id="learn-1day" class="cleanse-details">
+        <div class="container">
+            <h2>🌿 1-Day Cleanse – Learn More</h2>
+            <p><strong>A Gentle Reset. One Day is All You Need.</strong></p>
+            <p>The 1-Day Cleanse is designed to refresh your system, hydrate your cells, and restore balance — all within 24 hours. Whether you're new to cleansing, bouncing back from a busy weekend, or simply looking to reset with intention, this plan is your gentle jumpstart.</p>
+
+            <h4>✅ Benefits:</h4>
+            <ul>
+                <li>Flushes toxins & reduces bloating</li>
+                <li>Boosts hydration & energy without caffeine</li>
+                <li>Introduces your body to the benefits of juicing</li>
+                <li>Great prep before a longer cleanse</li>
+            </ul>
+
+            <h4>💡 Ideal For:</h4>
+            <ul>
+                <li>First-time cleansers</li>
+                <li>Wellness beginners</li>
+                <li>Light digestive reset</li>
+            </ul>
+
+            <p><strong>Includes:</strong> 8 bottles of your choice: The Refresher or The Reboot</p>
+            <p>👉 Cleanse your body. Clear your mind. One day at a time.</p>
+            
+            <div class="section-actions">
+                <a href="#cleanses" class="btn btn-secondary">Back to Cleanses</a>
+                <a href="#top" class="btn btn-primary">Back to Top</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn-2day" class="cleanse-details">
+        <div class="container">
+            <h2>🌱 2-Day Cleanse – Learn More</h2>
+            <p><strong>Balanced. Intentional. Effective.</strong></p>
+            <p>This plan goes beyond a simple reset — giving your digestive system time to rest while flooding your body with nourishing, anti-inflammatory ingredients. It's long enough to make a difference, short enough to stay consistent.</p>
+
+            <h4>✅ Benefits:</h4>
+            <ul>
+                <li>Jumpstarts your metabolism</li>
+                <li>Reduces cravings & inflammation</li>
+                <li>Supports gut clarity and skin glow</li>
+                <li>Reinforces healthy habits</li>
+            </ul>
+
+            <h4>💡 Ideal For:</h4>
+            <ul>
+                <li>Weekend detoxers</li>
+                <li>Intermediate cleansers</li>
+                <li>Reset between busy life phases</li>
+            </ul>
+
+            <p><strong>Includes:</strong> 16 bottles — choose from The Refresher or The Reboot</p>
+            <p>👉 Two days to reset. A lifetime of benefits to gain.</p>
+            
+            <div class="section-actions">
+                <a href="#cleanses" class="btn btn-secondary">Back to Cleanses</a>
+                <a href="#top" class="btn btn-primary">Back to Top</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn-3day" class="cleanse-details">
+        <div class="container">
+            <h2>🌴 3-Day Cleanse – Learn More</h2>
+            <p><strong>Your Full-Body Refresh</strong></p>
+            <p>This three-day journey invites you to unplug, unwind, and realign from the inside out. Each bottle supports detox, hydration, and renewal—so you finish feeling lighter, brighter, and fully recharged.</p>
+
+            <h4>✅ Benefits:</h4>
+            <ul>
+                <li>Deep cellular detoxification</li>
+                <li>Enhanced mental clarity & focus</li>
+                <li>Improved skin texture & radiance</li>
+                <li>Sustained energy throughout the day</li>
+            </ul>
+
+            <h4>💡 Ideal For:</h4>
+            <ul>
+                <li>Experienced cleansers</li>
+                <li>Those seeking deeper transformation</li>
+                <li>Post-holiday or vacation reset</li>
+            </ul>
+
+            <p><strong>Includes:</strong> 24 bottles — choose from The Refresher or The Reboot</p>
+            <p>👉 Wellness that flows with you—mind, body, and spirit.</p>
+            
+            <div class="section-actions">
+                <a href="#cleanses" class="btn btn-secondary">Back to Cleanses</a>
+                <a href="#top" class="btn btn-primary">Back to Top</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn-5day" class="cleanse-details">
+        <div class="container">
+            <h2>🌸 5-Day Cleanse – Learn More</h2>
+            <p><strong>Elevated Restoration</strong></p>
+            <p>Designed for those ready to go deeper, the 5-Day Cleanse supports cellular rejuvenation and sustained energy. Let go of the noise, flood your body with nutrients, and return to your natural flow.</p>
+
+            <h4>✅ Benefits:</h4>
+            <ul>
+                <li>Comprehensive system reset</li>
+                <li>Enhanced immune function</li>
+                <li>Improved sleep quality</li>
+                <li>Long-lasting habit formation</li>
+            </ul>
+
+            <h4>💡 Ideal For:</h4>
+            <ul>
+                <li>Dedicated wellness enthusiasts</li>
+                <li>Those seeking significant transformation</li>
+                <li>Pre-holiday preparation</li>
+            </ul>
+
+            <p><strong>Includes:</strong> 40 bottles — choose from The Refresher or The Reboot</p>
+            <p>👉 The perfect companion for a wellness-focused week.</p>
+            
+            <div class="section-actions">
+                <a href="#cleanses" class="btn btn-secondary">Back to Cleanses</a>
+                <a href="#top" class="btn btn-primary">Back to Top</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn-7day" class="cleanse-details">
+        <div class="container">
+            <h2>🌞 7-Day Cleanse – Learn More</h2>
+            <p><strong>Complete Transformation</strong></p>
+            <p>A week of vibrant blends crafted for those committed to deep healing and reset. This journey nourishes every cell, sharpens your focus, and cultivates clarity—from your first sip to your last sunrise.</p>
+
+            <h4>✅ Benefits:</h4>
+            <ul>
+                <li>Complete body transformation</li>
+                <li>Mental clarity & emotional balance</li>
+                <li>Enhanced spiritual connection</li>
+                <li>Lifetime wellness foundation</li>
+            </ul>
+
+            <h4>💡 Ideal For:</h4>
+            <ul>
+                <li>Serious wellness seekers</li>
+                <li>Those ready for life-changing results</li>
+                <li>Spiritual and physical alignment</li>
+            </ul>
+
+            <p><strong>Includes:</strong> 56 bottles — choose from The Refresher or The Reboot</p>
+            <p>👉 Not just a cleanse—this is a wellness ritual.</p>
+            
+            <div class="section-actions">
+                <a href="#cleanses" class="btn btn-secondary">Back to Cleanses</a>
+                <a href="#top" class="btn btn-primary">Back to Top</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Bundle Builder Modal -->
+    <div class="bundle-modal" id="bundle-modal">
+        <div class="bundle-content">
+            <div class="bundle-header">
+                <h3>Build Your Custom Bundle</h3>
+                <button class="close-bundle" id="close-bundle">&times;</button>
+            </div>
+            
+            <div class="bundle-body">
+                <div class="bundle-tier-info">
+                    <div class="tier-summary">
+                        <span class="tier-name" id="selected-tier-name">1-5 Bottles</span>
+                        <span class="tier-price" id="selected-tier-price">$7.99 per bottle</span>
+                    </div>
+                    <div class="tier-requirements">
+                        <span class="requirement-text" id="requirement-text">Select exactly 1-5 bottles total</span>
+                    </div>
+                </div>
+                
+                <div class="flavor-selector">
+                    <h4>Choose Your Flavors</h4>
+                    <div class="flavor-items">
+                        <div class="flavor-item" data-flavor="refresher">
+                            <div class="flavor-info">
+                                <div class="flavor-name">The Refresher</div>
+                                <div class="flavor-ingredients">Green Apple · Cucumber · Lemon · Ginger · Key Lime</div>
+                            </div>
+                            <div class="flavor-quantity">
+                                <button class="qty-btn" onclick="updateBundleQuantity('refresher', -1)">-</button>
+                                <span class="qty-display" id="refresher-bundle-qty">0</span>
+                                <button class="qty-btn" onclick="updateBundleQuantity('refresher', 1)">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="flavor-item" data-flavor="reboot">
+                            <div class="flavor-info">
+                                <div class="flavor-name">The Reboot</div>
+                                <div class="flavor-ingredients">Green Apple · Beets · Lemon · Ginger</div>
+                            </div>
+                            <div class="flavor-quantity">
+                                <button class="qty-btn" onclick="updateBundleQuantity('reboot', -1)">-</button>
+                                <span class="qty-display" id="reboot-bundle-qty">0</span>
+                                <button class="qty-btn" onclick="updateBundleQuantity('reboot', 1)">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="flavor-item" data-flavor="Island Zing">
+                            <div class="flavor-info">
+                                <div class="flavor-name">The Island Zing</div>
+                                <div class="flavor-ingredients">Watermelon · Pineapple · Ginger</div>
+                                <div class="seasonal-note">Seasonal Flavor</div>
+                            </div>
+                            <div class="flavor-quantity">
+                                <button class="qty-btn" onclick="updateBundleQuantity('Island Zing', -1)">-</button>
+                                <span class="qty-display" id="island-zing-bundle-qty">0</span>
+                                <button class="qty-btn" onclick="updateBundleQuantity('Island Zing', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bundle-summary">
+                    <div class="summary-details">
+                        <div class="summary-text" id="summary-text">Select your flavors to see summary</div>
+                        <div class="total-count" id="total-count">Total: 0 bottles</div>
+                    </div>
+                    <div class="summary-price">
+                        <div class="price-breakdown" id="price-breakdown"></div>
+                        <div class="total-price" id="total-price">$0.00</div>
+                    </div>
+                </div>
+                
+                <div class="validation-message" id="validation-message"></div>
+            </div>
+            
+            <div class="bundle-actions">
+                <button class="btn btn-secondary" id="cancel-bundle">Cancel</button>
+                <button class="btn btn-primary" id="add-bundle-to-cart" disabled>
+                    <span class="btn-text">Add Bundle to Cart</span>
+                    <span class="btn-loading" style="display: none;">Adding...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Juic'E Drinks</h3>
+                    <p>💯 The Most Refreshing Thing You Had All Day • 100% Natural • Cold Pressed</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 (555) 123-4567</p>
+                    <p>📧 info@juicedrinks.biz</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 8AM-8PM</p>
+                    <p>Sat-Sun: 9AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Juic'E Drinks. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Consolidated JavaScript Files -->
+    <script src="js/cart.js"></script>
+    <script src="js/pricing.js"></script>
+    <script src="js/delivery.js"></script>
+    <script src="js/stripe-checkout.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

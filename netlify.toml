@@ -1,0 +1,105 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+  STRIPE_API_VERSION = "2024-06-20"
+
+[context.production.environment]
+  STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
+  STRIPE_PUBLISHABLE_KEY = "${STRIPE_PUBLISHABLE_KEY}"
+  STRIPE_WEBHOOK_SECRET = "${STRIPE_WEBHOOK_SECRET}"
+  FRONTEND_URL = "https://juicedrinks.biz"
+  ALLOWED_ORIGINS = "https://juicedrinks.biz"
+
+[context.deploy-preview.environment]
+  STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
+  STRIPE_PUBLISHABLE_KEY = "${STRIPE_PUBLISHABLE_KEY}"
+  STRIPE_WEBHOOK_SECRET = "${STRIPE_WEBHOOK_SECRET}"
+  FRONTEND_URL = "https://deploy-preview--juicedrinks.netlify.app"
+  ALLOWED_ORIGINS = "https://*.netlify.app,http://localhost:8888"
+
+[context.branch-deploy.environment]
+  STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
+  STRIPE_PUBLISHABLE_KEY = "${STRIPE_PUBLISHABLE_KEY}"
+  STRIPE_WEBHOOK_SECRET = "${STRIPE_WEBHOOK_SECRET}"
+  FRONTEND_URL = "https://staging.juicedrinks.biz"
+  ALLOWED_ORIGINS = "https://staging.juicedrinks.biz,https://*.netlify.app,http://localhost:8888"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/success"
+  to = "/success.html"
+  status = 200
+
+[[redirects]]
+  from = "/cancel"
+  to = "/cancel.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security Headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://www.google-analytics.com https://maps.googleapis.com; frame-src https://js.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+    
+    # Performance Headers
+    Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+    
+    # HSTS (HTTP Strict Transport Security)
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# Specific headers for HTML files
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "text/html; charset=utf-8"
+
+# Headers for CSS and JS files
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css; charset=utf-8"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript; charset=utf-8"
+
+# Headers for images
+[[headers]]
+  for = "*.{jpg,jpeg,png,gif,webp,svg}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+
+# Headers for fonts
+[[headers]]
+  for = "*.{woff,woff2,ttf,otf,eot}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
