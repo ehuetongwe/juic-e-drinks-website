@@ -1,9 +1,8 @@
 # Netlify configuration for Juic'E Drinks website
-# Note: No build command is needed since this is a static site
 
 [build]
-  publish = "."                # Serve static files from project root
-  functions = "netlify/functions"  # Netlify serverless functions
+  publish = "."
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/api/*"
@@ -38,8 +37,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' /.netlify/functions/* https://api.stripe.com https://www.google-analytics.com https://maps.googleapis.com; frame-src https://js.stripe.com https://checkout.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self';"
-
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://juicedrinks.biz https://api.stripe.com https://*.stripe.com https://www.google-analytics.com https://maps.googleapis.com; frame-src https://js.stripe.com https://checkout.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     Cache-Control = "public, max-age=31536000, immutable"
     Vary = "Accept-Encoding"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
