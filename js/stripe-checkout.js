@@ -3,14 +3,8 @@
 
 // ================= Configuration =================
 
-// Read Stripe key from meta tag in HTML
 function getStripePublishableKey() {
-    const metaTag = document.querySelector('meta[name="stripe-publishable-key"]');
-    if (metaTag) {
-        return metaTag.getAttribute('content');
-    }
-    // Fallback to hardcoded key if meta tag not found
-    return 'pk_test_51QhfGHRwxI0bLZAy4VvHW0HInZ3bKJslLFGNcaVHN0RcvCXvUTqRpzUjHzQGMHWgSbK3NZu3dI7kEfXNf3Dp4dxM00TbTKzrDZ';
+    return 'pk_test_51RkExhJyOFzlYZ85icg54mcoVKWQrw1TYTeOn0iZS53VACyFKpfWjrfgjy0AbmSIjT7sg3QitafBDPni9Uj0VP1300036hMfaR';
 }
 
 const STRIPE_CONFIG = {
