@@ -1655,6 +1655,13 @@ body {
     margin-top: 0;
 }
 
+.form-helper {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
 .form-section {
     margin-bottom: 2rem;
 }

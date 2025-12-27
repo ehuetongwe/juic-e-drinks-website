@@ -20,11 +20,7 @@ function processOrder() {
         return;
     }
 
-    // Check delivery validation
-    if (!deliveryValidated) {
-        showNotification("Please validate your delivery address before checking out.", "error");
-        return;
-    }
+    // Shipping is available nationwide, no validation step required now
 
     // Simulate order submission
     const orderData = {

@@ -3,12 +3,21 @@ const Stripe = require('stripe');
 exports.handler = async function (event) {
   console.log('🔧 Stripe checkout function invoked');
 
+  console.log('🌐 Environment variables available:', Object.keys(process.env).filter(k => k.includes('STRIPE') || k.includes('URL')));
+  console.log('📋 FRONTEND_URL:', process.env.FRONTEND_URL);
+  console.log('📋 URL:', process.env.URL);
+  console.log('📋 DEPLOY_PRIME_URL:', process.env.DEPLOY_PRIME_URL);
+
+  // FIX: Always use your custom domain for redirects
+  const baseUrl = process.env.FRONTEND_URL || 'https://juicedrinks.biz';
+  console.log(`🎯 Using base URL for redirects: ${baseUrl}`);
+
   const origin = event.headers.origin || '';
   console.log(`🌐 Request origin: ${origin}`);
   console.log(`🔧 HTTP method: ${event.httpMethod}`);
 
   const headers = {
-    'Access-Control-Allow-Origin': origin || process.env.FRONTEND_URL,
+    'Access-Control-Allow-Origin': '*', // Allow all for testing
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json',
@@ -37,9 +46,9 @@ exports.handler = async function (event) {
 
   // Initialize Stripe after validation
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: process.env.STRIPE_API_VERSION || '2024-06-20',
+    apiVersion: '2025-06-30', // Match your webhook API version
   });
-  console.log('✅ Stripe instance created with API version:', process.env.STRIPE_API_VERSION || '2024-06-20');
+  console.log('✅ Stripe instance created with API version: 2025-06-30');
 
   try {
     const { items, delivery_fee, customer_email, metadata } = JSON.parse(event.body);
@@ -76,7 +85,6 @@ exports.handler = async function (event) {
       });
     }
 
-    const baseUrl = process.env.FRONTEND_URL || process.env.URL || process.env.DEPLOY_PRIME_URL || origin;
     console.log(`🌐 Base URL for redirects: ${baseUrl}`);
     console.log(`   - Success URL: ${baseUrl}/success.html`);
     console.log(`   - Cancel URL: ${baseUrl}/cancel.html`);
@@ -96,7 +104,14 @@ exports.handler = async function (event) {
     console.log(`   - Session ID: ${session.id}`);
     console.log(`   - Session URL: ${session.url}`);
 
-    return { statusCode: 200, headers, body: JSON.stringify({ sessionId: session.id }) };
+    return { 
+      statusCode: 200, 
+      headers, 
+      body: JSON.stringify({ 
+        sessionId: session.id,
+        url: session.url  // Include URL as fallback
+      }) 
+    };
   } catch (err) {
     console.error('❌ Error creating checkout session:');
     console.error('   - Error name:', err.name);
