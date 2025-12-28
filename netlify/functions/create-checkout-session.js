@@ -46,9 +46,9 @@ exports.handler = async function (event) {
 
   // Initialize Stripe after validation
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2025-06-30', // Match your webhook API version
+    apiVersion: '2025-12-15.clover', // Latest supported API version
   });
-  console.log('✅ Stripe instance created with API version: 2025-06-30');
+  console.log('✅ Stripe instance created with API version: 2025-12-15.clover');
 
   try {
     const { items, delivery_fee, customer_email, metadata } = JSON.parse(event.body);
