@@ -20,7 +20,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, delivery_fee, customer_email, metadata } = JSON.parse(event.body);
+    const { items, shipping_fee, customer_email, metadata = {}, shipping_method } = JSON.parse(event.body);
     if (!Array.isArray(items) || items.length === 0) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'No items provided' }) };
     }
@@ -34,12 +34,12 @@ exports.handler = async function (event) {
       quantity: i.quantity,
     }));
 
-    if (delivery_fee) {
+    if (shipping_fee) {
       line_items.push({
         price_data: {
           currency: 'usd',
-          product_data: { name: 'Delivery Fee' },
-          unit_amount: Math.round(delivery_fee * 100),
+          product_data: { name: 'Shipping' },
+          unit_amount: Math.round(shipping_fee * 100),
         },
         quantity: 1,
       });
@@ -54,7 +54,7 @@ exports.handler = async function (event) {
       success_url: `${baseUrl}/success.html`,
       cancel_url: `${baseUrl}/cancel.html`,
       customer_email,
-      metadata,
+      metadata: { ...metadata, shipping_method: shipping_method || metadata.shipping_method || 'standard' },
     });
 
     return { statusCode: 200, headers, body: JSON.stringify({ sessionId: session.id }) };

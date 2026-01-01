@@ -20,12 +20,6 @@ function processOrder() {
         return;
     }
 
-    // Check delivery validation
-    if (!deliveryValidated) {
-        showNotification("Please validate your delivery address before checking out.", "error");
-        return;
-    }
-
     // Simulate order submission
     const orderData = {
         customer: { name, phone, email, address },
@@ -34,6 +28,10 @@ function processOrder() {
         totalBottles,
         subtotal: calculateTotals().subtotal,
         orderTotal: calculateTotals().subtotal + deliveryFee,
+        shipping: {
+            method: document.getElementById('shipping-method')?.value || 'standard',
+            notes: document.getElementById('shipping-notes')?.value?.trim() || ''
+        },
         orderDate: new Date().toISOString()
     };
 
@@ -65,10 +63,15 @@ function clearCheckoutForm() {
     document.getElementById('checkout-phone').value = "";
     document.getElementById('checkout-email').value = "";
     document.getElementById('checkout-address').value = "";
-
-    // Optional: Clear delivery validation state
-    deliveryValidated = false;
-    deliveryFee = 0;
+    const shippingSelect = document.getElementById('shipping-method');
+    if (shippingSelect) {
+        shippingSelect.value = 'standard';
+        if (typeof window.applyShippingMethod === 'function') {
+            window.applyShippingMethod('standard');
+        }
+    }
+    const shippingNotes = document.getElementById('shipping-notes');
+    if (shippingNotes) shippingNotes.value = "";
 }
 
 // Helper: Reset cart
