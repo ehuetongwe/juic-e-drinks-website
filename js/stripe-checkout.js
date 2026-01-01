@@ -84,10 +84,10 @@ async function initiateCheckout() {
         
         console.log('Items for Stripe:', items);
         
-        const deliveryFee = window.deliveryFee || 0;
+        const shippingFee = window.deliveryFee || 0;
         const customerEmail = document.getElementById('checkout-email')?.value.trim() || '';
         
-        console.log('Delivery fee:', deliveryFee);
+        console.log('Shipping fee:', shippingFee);
         console.log('Customer email:', customerEmail);
         
         console.log('4️⃣ Creating Stripe session...');
@@ -100,7 +100,8 @@ async function initiateCheckout() {
             },
             body: JSON.stringify({
                 items: items,
-                delivery_fee: deliveryFee,
+                shipping_fee: shippingFee,
+                shipping_method: window.shippingState?.method || 'standard',
                 customer_email: customerEmail,
                 metadata: {
                     site: 'JuicE Drinks',
@@ -166,11 +167,6 @@ async function initiateCheckout() {
 function validateCheckout() {
     const errors = [];
     
-    // Check delivery validation
-    if (!window.deliveryValidated) {
-        errors.push('Please validate your delivery address first');
-    }
-    
     // Check form fields
     const name = document.getElementById('checkout-name')?.value.trim();
     const phone = document.getElementById('checkout-phone')?.value.trim();
@@ -178,6 +174,7 @@ function validateCheckout() {
     const address = document.getElementById('checkout-address')?.value.trim();
     const city = document.getElementById('checkout-city')?.value.trim();
     const zip = document.getElementById('checkout-zip')?.value.trim();
+    const shippingMethod = document.getElementById('shipping-method')?.value;
     
     if (!name) errors.push('Please enter your full name');
     if (!phone) errors.push('Please enter your phone number');
@@ -185,6 +182,7 @@ function validateCheckout() {
     if (!address) errors.push('Please enter your street address');
     if (!city) errors.push('Please enter your city');
     if (!zip) errors.push('Please enter your ZIP code');
+    if (!shippingMethod) errors.push('Please select a shipping speed');
     
     // Validate formats
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

@@ -10,7 +10,7 @@
 function initializeApp() {
     // Initialize core systems first
     initNotificationSystem();
-    initDeliveryDefaults();
+    initShippingDefaults();
     
     // Initialize UI components
     initNav();
@@ -19,7 +19,6 @@ function initializeApp() {
     initCountdownTimer();
     
     // Initialize feature modules
-    initDeliveryCheck();
     initBundleBuilder();
     initCheckout();
     
@@ -288,23 +287,6 @@ function initFlavorTabs() {
     });
 }
 
-// ================= Delivery Check =================
-
-/**
- * Initialize delivery check functionality
- */
-function initDeliveryCheck() {
-    const btn = document.getElementById('check-delivery-btn');
-    if (!btn) return;
-
-    btn.addEventListener('click', () => {
-        const address = document.getElementById('delivery-address')?.value;
-        if (typeof window.checkDeliveryAvailability === 'function') {
-            window.checkDeliveryAvailability(address);
-        }
-    });
-}
-
 // ================= Bundle Builder =================
 
 /**
@@ -350,18 +332,17 @@ function initCheckout() {
     });
 }
 
-// ================= Delivery Defaults =================
+// ================= Shipping Defaults =================
 
 /**
- * Initialize default delivery settings
+ * Initialize default shipping settings
  */
-function initDeliveryDefaults() {
-    // Set default delivery fee for local delivery
+function initShippingDefaults() {
     if (typeof window.deliveryFee === 'undefined') {
-        window.deliveryFee = 7; // Default $7 delivery fee
+        window.deliveryFee = 24; // Default $24 standard cold-pack shipping
     }
     if (typeof window.deliveryValidated === 'undefined') {
-        window.deliveryValidated = false;
+        window.deliveryValidated = true;
     }
 }
 
